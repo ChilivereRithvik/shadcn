@@ -5,11 +5,12 @@ import Chat from "./components/Chat";
 
 function GPT() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(true); // Sidebar is closed by default
 
+  // Toggle Sidebar
   const toggleSidebar = () => {
-    setSidebarOpen((prev) => !prev);
-    console.log("Sidebar toggled:", !sidebarOpen);
+    setSidebarOpen(!sidebarOpen); // Toggle the sidebar state
+    console.log("gpt.tsx file menu icon clicked");
   };
 
   useEffect(() => {
