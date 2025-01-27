@@ -3,9 +3,9 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import Dashboard from './Dashboard'
 import Gpt from './Gpt'
 import Layout from './components/Layout'
-import Login from './login'
+import Login from './Login'
 import Signup from './Sigup'
-import Settings from './Settings'
+// import Settings from './Settings'
 import Upgrade from './upgrade'
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
     <Route path="/layout" element={<Layout />} />
     <Route path='/login' element={<Login />} />
     <Route path='/signup' element={<Signup />} />
-    <Route path='/settings' element={<Settings />} />
+    {/* <Route path='/settings' element={<Settings />} /> */}
     <Route path='/upgrade' element={<Upgrade />} />
   </Routes>
 </Router>

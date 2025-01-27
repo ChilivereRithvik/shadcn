@@ -10,17 +10,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
 interface LayoutProps {
   children: React.ReactNode;
   sidebarOpen: boolean;
   toggleSidebar: () => void;
 }
 
-export default function Layout({
-  children,
-  sidebarOpen,
-  toggleSidebar
-}: LayoutProps) {
+export default function Layout({ children, sidebarOpen, toggleSidebar }: LayoutProps) {
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -35,15 +41,14 @@ export default function Layout({
       <div
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border border-r rounded-tr-lg rounded-br-lg transform transition-transform duration-300 ease-in-out 
           ${sidebarOpen ? "translate-x-0 lg:translate-x-0" : "-translate-x-full lg:-translate-x-full"} 
-          }
-        `}
+          `}
       >
         {/* Sidebar Header */}
         <div className="flex items-center justify-between h-16 px-6 bg-primary text-primary-foreground">
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleSidebar} // This button will toggle the sidebar
+            onClick={toggleSidebar}
             aria-label="Close Sidebar"
           >
             <Menu className="h-6 w-6" />
@@ -76,7 +81,12 @@ export default function Layout({
         <header className="flex items-center justify-between h-16 px-6 bg-background">
           <div className="flex items-center space-x-4">
             {/* Menu Button in Navbar to Open Sidebar */}
-            <Button variant="ghost" size="icon" onClick={toggleSidebar} aria-label="Open Sidebar">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleSidebar}
+              aria-label="Open Sidebar"
+            >
               <Menu className="h-6 w-6" />
             </Button>
             {/* GPT UI Dropdown */}
@@ -88,12 +98,16 @@ export default function Layout({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => navigate("/gpt")}>Temporary Chat</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/upgrade")}>Upgrade Plans</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/gpt")}>
+                  Temporary Chat
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/upgrade")}>
+                  Upgrade Plans
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 justify-start">
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -106,16 +120,45 @@ export default function Layout({
                   <User className="mr-2 h-4 w-4" />
                   <span>Profile</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/settings")}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+
+                {/* Dialog Integrated in Dropdown */}
+                <DropdownMenuItem asChild>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="ghost">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Settings</DialogTitle>
+                        <DialogDescription>
+                          This is your settings dialog.
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <p>Choose your preferences and save changes here.</p>
+                      </div>
+                      <DialogFooter>
+                        <Button onClick={() => console.log("Close")}>
+                          Close
+                        </Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem onClick={() => navigate("/")}>
                   <Home className="mr-2 h-4 w-4" />
                   <span>Home</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleThemeToggle}>
-                  {theme === "dark" ? <Moon className="mr-2 h-4 w-4" /> : <Sun className="mr-2 h-4 w-4" />}
+                  {theme === "dark" ? (
+                    <Moon className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Sun className="mr-2 h-4 w-4" />
+                  )}
                   <span>Toggle Theme</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

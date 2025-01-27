@@ -1,45 +1,34 @@
-import { useState, useEffect } from "react";
-import { useTheme } from "./hooks/theme";
-import Layout from "./components/Layout";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-export default function Settings() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null; // Avoid rendering mismatches during SSR
-  }
-
+export default function SettingsDialog({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   return (
-    <Layout>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Settings</h1>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      {/* Dialog content */}
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Settings</DialogTitle>
+          <DialogDescription>
+            This is your settings dialog.
+          </DialogDescription>
+        </DialogHeader>
+
+        {/* You can add settings content here */}
         <div className="space-y-4">
-          <div>
-            <h2 className="text-lg font-semibold mb-2">Theme</h2>
-            <RadioGroup defaultValue={theme} onValueChange={(value) => setTheme(value)}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="light" id="light" />
-                <Label htmlFor="light">Light</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="dark" id="dark" />
-                <Label htmlFor="dark">Dark</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="system" id="system" />
-                <Label htmlFor="system">System</Label>
-              </div>
-            </RadioGroup>
-          </div>
+          <p>Choose your preferences and save changes here.</p>
         </div>
-      </div>
-    </Layout>
+
+        {/* Dialog footer with a close/save button */}
+        <DialogFooter>
+          <Button onClick={onClose}>Close</Button> {/* Close the dialog */}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
